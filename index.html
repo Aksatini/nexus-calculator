@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora NEXUS</title>
+
+  <style>
+    :root{
+      --bg1:#070b1a;
+      --bg2:#0b1633;
+      --card:#050815cc;
+      --card2:#070c1ecc;
+      --stroke:#1f2a44;
+      --text:#e8eefc;
+      --muted:#9bb0d5;
+      --accent:#38bdf8;
+      --accent2:#60a5fa;
+      --good:#22c55e;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 600px at 50% 35%, rgba(56,189,248,.18), transparent 60%),
+        radial-gradient(900px 500px at 20% 20%, rgba(96,165,250,.12), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      padding: 24px;
+    }
+
+    .calculator{
+      width: min(440px, 92vw);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid rgba(31,42,68,.75);
+      border-radius: var(--radius);
+      padding: 22px 22px 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* brilho suave */
+    .calculator::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(500px 220px at 50% 0%, rgba(56,189,248,.18), transparent 60%);
+      pointer-events:none;
+    }
+
+    .logo{
+      text-align:center;
+      font-weight: 900;
+      letter-spacing: 6px;
+      font-size: 28px;
+      margin: 4px 0 18px;
+      color: transparent;
+      background: linear-gradient(90deg, #7dd3fc, #38bdf8, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 0 24px rgba(56,189,248,.15);
+    }
+
+    .field{ margin-top: 12px; }
+    .field label{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: .2px;
+    }
+
+    .control{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(31,42,68,.9);
+      background: rgba(3,6,18,.75);
+      color: var(--text);
+      outline: none;
+      transition: .18s ease;
+      font-size: 14px;
+    }
+
+    .control::placeholder{ color: rgba(155,176,213,.55); }
+
+    .control:focus{
+      border-color: rgba(56,189,248,.85);
+      box-shadow: 0 0 0 4px rgba(56,189,248,.14);
+    }
+
+    /* Select com seta bonitinha */
+    select.control{
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(232,238,252,.8) 50%),
+        linear-gradient(135deg, rgba(232,238,252,.8) 50%, transparent 50%),
+        linear-gradient(to right, transparent, transparent);
+      background-position:
+        calc(100% - 18px) 50%,
+        calc(100% - 12px) 50%,
+        0 0;
+      background-size: 6px 6px, 6px 6px, 100% 100%;
+      background-repeat: no-repeat;
+      padding-right: 34px;
+    }
+
+    /* Pills do desconto */
+    .pills{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .pill{
+      border: 1px solid rgba(31,42,68,.9);
+      background: rgba(3,6,18,.55);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition: .18s ease;
+      user-select:none;
+      min-height: 44px;
+      text-align:center;
+      color: rgba(232,238,252,.9);
+    }
+
+    .pill input{ display:none; }
+
+    .pill span{
+      font-size: 13px;
+      line-height: 1.1;
+      font-weight: 700;
+      color: rgba(232,238,252,.9);
+    }
+
+    .pill:has(input:checked){
+      border-color: rgba(56,189,248,.9);
+      background: rgba(56,189,248,.12);
+      box-shadow: 0 0 0 4px rgba(56,189,248,.12);
+    }
+
+    /* fallback p/ browsers sem :has (opcional) */
+    @supports not selector(:has(*)) {
+      .pill.checked{
+        border-color: rgba(56,189,248,.9);
+        background: rgba(56,189,248,.12);
+        box-shadow: 0 0 0 4px rgba(56,189,248,.12);
+      }
+    }
+
+    button{
+      width:100%;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(56,189,248,.6);
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+      color: #02101d;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .3px;
+      cursor: pointer;
+      transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+      box-shadow: 0 16px 35px rgba(56,189,248,.18);
+    }
+
+    button:hover{
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 45px rgba(56,189,248,.22);
+    }
+
+    button:active{ transform: translateY(0px) scale(.995); }
+
+    .result{
+      margin-top: 14px;
+      border-radius: 14px;
+      padding: 14px 14px;
+      border: 1px solid rgba(31,42,68,.9);
+      background: rgba(3,6,18,.55);
+      text-align:center;
+    }
+
+    .total{
+      font-size: 15px;
+      color: rgba(232,238,252,.85);
+      margin-bottom: 6px;
+    }
+
+    .total strong{
+      font-size: 18px;
+      color: var(--text);
+      text-shadow: 0 0 18px rgba(56,189,248,.18);
+    }
+
+    .sub{
+      font-size: 12px;
+      color: rgba(155,176,213,.9);
+      line-height: 1.35;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+    }
+    .row .field{ flex:1; }
+
+    @media (max-width: 420px){
+      .calculator{ padding: 18px 16px 16px; }
+      .logo{ font-size: 24px; letter-spacing: 5px; }
+      .pills{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <div class="logo">NEXUS</div>
+
+    <div class="field">
+      <label for="weapon">Arma</label>
+      <select id="weapon" class="control"></select>
+    </div>
+
+    <div class="field">
+      <label for="quantity">Quantidade de munições</label>
+      <input type="number" id="quantity" class="control" value="200" min="1" step="1" />
+    </div>
+
+    <div class="pills" id="pills">
+      <label class="pill">
+        <input type="radio" name="discount" value="0" checked />
+        <span>Sem parceria</span>
+      </label>
+
+      <label class="pill">
+        <input type="radio" name="discount" value="0.2" />
+        <span>Com parceria<br>(-20%)</span>
+      </label>
+    </div>
+
+    <button id="btn">Calcular</button>
+
+    <div class="result">
+      <div class="total" id="result">Total: <strong>R$ 0,00</strong></div>
+      <div class="sub" id="unitInfo">Preço por munição: R$ 0,00 (base 200: R$ 0,00)</div>
+    </div>
+  </div>
+
+  <script>
+    // Preço da tabela = valor para 200 munições
+    const weapons200 = {
+      "WINCHESTER 22": 350000,
+      "G3": 300000,
+      "M60": 250000,
+      "FAMAS MK2": 270000,
+      "AK-47": 220000,
+      "MTAR": 255000,
+      "MICRO UZI": 180000,
+      "MP5 MK2": 180000,
+      "MAGNUM 357": 175000,
+      "GLOCK RAJADA": 150000,
+      "DESERT": 125000,
+      "PT MK2": 100000,
+      "HK P7M10": 80000,
+      "SCARLIGHT": 300000,
+      "MG": 230000,
+      "MINI UZI": 120000,
+      "THOMPSON": 200000,
+      "APARAFAL": 250000,
+      "M4A1": 300000,
+      "DOZE": 250000,
+      "TEC-9": 200000
+    };
+
+    const weaponSelect = document.getElementById("weapon");
+    const qtyInput = document.getElementById("quantity");
+    const resultEl = document.getElementById("result");
+    const unitEl = document.getElementById("unitInfo");
+    const btn = document.getElementById("btn");
+    const pills = document.getElementById("pills");
+
+    function moneyBRL(v){
+      return v.toLocaleString("pt-BR",{ style:"currency", currency:"BRL" });
+    }
+
+    // popula select mostrando preço por munição
+    Object.keys(weapons200).forEach((w) => {
+      const perUnit = weapons200[w] / 200;
+      const option = document.createElement("option");
+      option.value = w;
+      option.textContent = `${w} — ${moneyBRL(perUnit)} / munição`;
+      weaponSelect.appendChild(option);
+    });
+
+    // fallback visual p/ browsers sem :has()
+    function syncPillChecked(){
+      const labels = pills.querySelectorAll(".pill");
+      labels.forEach(l => l.classList.remove("checked"));
+      labels.forEach(l => {
+        const input = l.querySelector("input");
+        if(input && input.checked) l.classList.add("checked");
+      });
+    }
+
+    function calculate(){
+      const weapon = weaponSelect.value;
+      const qty = Math.max(1, parseInt(qtyInput.value || "1", 10));
+      qtyInput.value = qty;
+
+      const discount = Number(document.querySelector('input[name="discount"]:checked').value);
+      const base200 = weapons200[weapon] || 0;
+      const perUnit = base200 / 200;
+
+      const total = perUnit * qty * (1 - discount);
+
+      resultEl.innerHTML = `Total: <strong>${moneyBRL(total)}</strong>`;
+      unitEl.textContent = `Preço por munição: ${moneyBRL(perUnit)} (base 200: ${moneyBRL(base200)})`;
+
+      syncPillChecked();
+    }
+
+    // eventos (atualiza sem precisar clicar, mas mantém o botão)
+    btn.addEventListener("click", calculate);
+    weaponSelect.addEventListener("change", calculate);
+    qtyInput.addEventListener("input", calculate);
+    pills.addEventListener("change", calculate);
+
+    // inicial
+    syncPillChecked();
+    calculate();
+  </script>
+</body>
+</html>
