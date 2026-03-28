@@ -1,25 +1,25 @@
 const weapons200 = {
-  "WINCHESTER 22": 300000,
-  "G3": 300000,
-  "M60": 250000,
-  "FAMAS MK2": 270000,
-  "AK-47": 220000,
-  "MTAR": 255000,
-  "MICRO UZI": 180000,
-  "MP5 MK2": 180000,
-  "MAGNUM 357": 175000,
-  "GLOCK RAJADA": 150000,
-  "DESERT": 125000,
-  "PT MK2": 100000,
-  "HK P7M10": 80000,
-  "SCARLIGHT": 300000,
-  "MG": 230000,
-  "MINI UZI": 120000,
-  "THOMPSON": 200000,
-  "APARAFAL": 250000,
-  "M4A1": 300000,
-  "DOZE": 250000,
-  "TEC-9": 200000
+  "WINCHESTER 22": 300000, // Não encontrado na lista 1 (valor mantido)
+  "G3": 300000,            // Não encontrado na lista 1 (valor mantido)
+  "M60": 450000,           // Atualizado
+  "FAMAS MK2": 150000,     // Atualizado
+  "AK-47": 220000,         // Não encontrado (há AK-74 na lista 1, mantido 220k)
+  "MTAR": 140000,          // Atualizado
+  "MICRO UZI": 115000,     // Atualizado
+  "MP5 MK2": 110000,       // Atualizado
+  "MAGNUM 357": 175000,    // Valor original (Na lista 1 é apenas "MAGNUM")
+  "GLOCK RAJADA": 65000,   // Atualizado
+  "DESERT": 40000,         // Atualizado
+  "PT MK2": 95000,         // Atualizado
+  "HK P7M10": 27000,       // Atualizado
+  "SCARLIGHT": 200000,     // Atualizado (referente a SCAR LIGHT)
+  "MG": 125000,            // Atualizado
+  "MINI UZI": 120000,      // Não encontrado (Na lista 1 é "MINI SMG")
+  "THOMPSON": 100000,      // Atualizado
+  "APARAFAL": 225000,      // Atualizado (referente a PARAFAL)
+  "M4A1": 190000,          // Atualizado
+  "DOZE": 250000,          // Não encontrado na lista 1
+  "TEC-9": 100000          // Atualizado
 };
 
 const weaponSelect = document.getElementById("weapon");
