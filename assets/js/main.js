@@ -1,7 +1,28 @@
 const PACK_SIZE = 200;
 const SELLER_COMMISSION = 0.15;
 
-
+const ITEMS = [
+  { name: "G36", price: 300000 },
+  { name: "MTAR", price: 140000 },
+  { name: "M60", price: 450000 },
+  { name: "WINCHESTER", price: 150000 },
+  { name: "M4A1", price: 190000 },
+  { name: "THOMPSON", price: 100000 },
+  { name: "MP5 MK2", price: 110000 },
+  { name: "PT MK2", price: 95000 },
+  { name: "AK-74", price: 170000 },
+  { name: "MICRO UZI", price: 115000 },
+  { name: "DESERT", price: 40000 },
+  { name: "SCAR LIGHT", price: 200000 },
+  { name: "PARAFAL", price: 225000 },
+  { name: "MINI SMG", price: 105000 },
+  { name: "FAMAS MK2", price: 150000 },
+  { name: "TEC-9", price: 100000 },
+  { name: "HK P7M10", price: 27000 },
+  { name: "MAGNUM", price: 27000 },
+  { name: "GLOCK RAJADA", price: 65000 },
+  { name: "MG", price: 125000 }
+];
 
 const DISCOUNTS = {
   none: 0,
